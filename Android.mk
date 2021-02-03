@@ -21,7 +21,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := tzdata_twrp
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/system/bin
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/sbin
 LOCAL_REQUIRED_MODULES := tzdata
 
 LOCAL_POST_INSTALL_CMD += \
@@ -39,7 +39,7 @@ ifeq ($(BOARD_USES_QCOM_FBE_DECRYPTION),true)
     LOCAL_MODULE := qcom_decrypt_fbe
     LOCAL_MODULE_TAGS := optional
     LOCAL_MODULE_CLASS := ETC
-    LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/system/bin
+    LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/sbin
     LOCAL_REQUIRED_MODULES := qcom_decrypt
 
     # Cannot send to TARGET_RECOVERY_ROOT_OUT since build system wipes init*.rc
@@ -60,7 +60,7 @@ ifeq ($(BOARD_USES_QCOM_DECRYPTION),true)
     LOCAL_MODULE := qcom_decrypt
     LOCAL_MODULE_TAGS := optional
     LOCAL_MODULE_CLASS := ETC
-    LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/system/bin
+    LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/sbin
     LOCAL_REQUIRED_MODULES := teamwin
 
     # Cannot send to TARGET_RECOVERY_ROOT_OUT since build system wipes init*.rc
@@ -77,7 +77,7 @@ ifeq ($(BOARD_USES_QCOM_DECRYPTION),true)
         grep -qF 'init.recovery.qcom_decrypt.rc' device/$(shell echo $(PRODUCT_BRAND) | tr  '[:upper:]' '[:lower:]')/$(TARGET_DEVICE)/recovery/root/init.recovery.qcom.rc || \
         echo -e '\nimport /init.recovery.qcom_decrypt.rc' >> device/$(shell echo $(PRODUCT_BRAND) | tr  '[:upper:]' '[:lower:]')/$(TARGET_DEVICE)/recovery/root/init.recovery.qcom.rc; \
         else echo -e '\n*** init.recovery.qcom.rc not found ***\nYou will need to manually add the import for init.recovery.qcom_decrypt.rc to your init.recovery.(ro.hardware).rc file!!\n'; fi; \
-        cp -Ra $(LOCAL_PATH)/crypto/system $(TARGET_ROOT_OUT)/;
+        cp -Ra $(LOCAL_PATH)/crypto/sbin $(TARGET_ROOT_OUT)/;
 
     ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
         LOCAL_POST_INSTALL_CMD += \

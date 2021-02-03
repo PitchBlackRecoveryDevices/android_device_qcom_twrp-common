@@ -15,7 +15,7 @@ This device tree is made for Qualcomm devices which need working decryption in T
   ```
 **NOTES:**
 - In the Android 8.1 & 9.0 trees, the binaries should be placed in the recovery ramdisk (recovery/root) in the same location as in the stock ROM, i.e. vendor/bin(/hw).
-- In the Android 10 tree, the binaries should be placed in system/bin.
+- In the Android 10 tree, the binaries should be placed in sbin.
 
 ## TWRP Common Decryption files
 To include these files for your device, the following BoardConfig flags should be used (only one flag is needed in either case, not both):
@@ -39,7 +39,7 @@ import /init.recovery.qcom_decrypt.rc
 
 If you forget to add the above import, the build tree will add it for you if it can find the `init.recovery.qcom.rc` file. Otherwise, there will be a warning near the end of the build system output that the import needs to be added.
 
-If for some reason these scripts do not work for you, increase the loglevel to `2` in [prepdecrypt.sh](https://github.com/TeamWin/android_device_qcom_twrp-common/blob/android-10/crypto/system/bin/prepdecrypt.sh#L22) and review the additional logging in the recovery.log to see where the process is failing.
+If for some reason these scripts do not work for you, increase the loglevel to `2` in [prepdecrypt.sh](https://github.com/TeamWin/android_device_qcom_twrp-common/blob/android-10/crypto/sbin/prepdecrypt.sh#L22) and review the additional logging in the recovery.log to see where the process is failing.
 
 ### tzdata package
 The tree also provides a package to add tzdata to the TWRP tree, to get rid of these errors:
@@ -90,18 +90,18 @@ ldcheck -p sbin:vendor/lib64 -d vendor/bin/qseecomd
 ```
 Android 10:
 ```
-ldcheck -p system/lib64:vendor/lib64 -d system/bin/qseecomd
+ldcheck -p system/lib64:vendor/lib64 -d sbin/qseecomd
 ```
 The output will look like this, if all dependencies are met (example from Android 10 tree):
 ```
-libs: ['system/bin/qseecomd', 'system/lib64/libcutils.so', 'system/lib64/libutils.so', 'system/lib64/liblog.so', 'vendor/lib64/libQSEEComAPI.so', 'vendor/lib64/libdrmfs.so', 'system/lib64/libc++.so', 'system/lib64/libc.so', 'system/lib64/libm.so', 'system/lib64/libdl.so', 'system/lib64/libbase.so', 'system/lib64/libprocessgroup.so', 'system/lib64/libvndksupport.so', 'system/lib64/libion.so', 'vendor/lib64/libdiag.so', 'system/lib64/libxml2.so', 'system/lib64/ld-android.so', 'system/lib64/libcgrouprc.so', 'system/lib64/libdl_android.so', 'system/lib64/libandroidicu.so', 'system/lib64/libicuuc.so', 'system/lib64/libicui18n.so']
+libs: ['sbin/qseecomd', 'system/lib64/libcutils.so', 'system/lib64/libutils.so', 'system/lib64/liblog.so', 'vendor/lib64/libQSEEComAPI.so', 'vendor/lib64/libdrmfs.so', 'system/lib64/libc++.so', 'system/lib64/libc.so', 'system/lib64/libm.so', 'system/lib64/libdl.so', 'system/lib64/libbase.so', 'system/lib64/libprocessgroup.so', 'system/lib64/libvndksupport.so', 'system/lib64/libion.so', 'vendor/lib64/libdiag.so', 'system/lib64/libxml2.so', 'system/lib64/ld-android.so', 'system/lib64/libcgrouprc.so', 'system/lib64/libdl_android.so', 'system/lib64/libandroidicu.so', 'system/lib64/libicuuc.so', 'system/lib64/libicui18n.so']
 unused: {'system/lib64/libm.so', 'vendor/lib64/libdiag.so', 'system/lib64/libandroidicu.so', 'system/lib64/libprocessgroup.so', 'system/lib64/libicui18n.so', 'vendor/lib64/libQSEEComAPI.so', 'system/lib64/libdl_android.so', 'system/lib64/libutils.so', 'vendor/lib64/libdrmfs.so', 'system/lib64/libion.so', 'system/lib64/libxml2.so', 'system/lib64/libicuuc.so', 'system/lib64/libcgrouprc.so'}
 ```
 If a dependency is missing, you'll see something like this:
 ```
 readelf: Error: 'libQSEEComAPI.so': No such file
 readelf: Error: 'libdrmfs.so': No such file
-libs: ['system/bin/qseecomd', 'system/lib64/libcutils.so', 'system/lib64/libutils.so', 'system/lib64/liblog.so', 'libQSEEComAPI.so', 'libdrmfs.so', 'system/lib64/libc++.so', 'system/lib64/libc.so', 'system/lib64/libm.so', 'system/lib64/libdl.so', 'system/lib64/libbase.so', 'system/lib64/libprocessgroup.so', 'system/lib64/libvndksupport.so', 'system/lib64/ld-android.so', 'system/lib64/libcgrouprc.so', 'system/lib64/libdl_android.so']
+libs: ['sbin/qseecomd', 'system/lib64/libcutils.so', 'system/lib64/libutils.so', 'system/lib64/liblog.so', 'libQSEEComAPI.so', 'libdrmfs.so', 'system/lib64/libc++.so', 'system/lib64/libc.so', 'system/lib64/libm.so', 'system/lib64/libdl.so', 'system/lib64/libbase.so', 'system/lib64/libprocessgroup.so', 'system/lib64/libvndksupport.so', 'system/lib64/ld-android.so', 'system/lib64/libcgrouprc.so', 'system/lib64/libdl_android.so']
 nm: 'libQSEEComAPI.so': No such file
 nm: 'libdrmfs.so': No such file
 nm: 'libQSEEComAPI.so': No such file
